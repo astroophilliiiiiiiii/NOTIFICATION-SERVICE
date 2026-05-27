@@ -1,0 +1,10 @@
+{
+  "name": "TypeScript Template",
+  "portsAttributes": {
+    "8085": {
+      "label": "Express App",
+      "onAutoForward": "openPreview",
+      "visibility": "public"
+    } 
+  }
+}

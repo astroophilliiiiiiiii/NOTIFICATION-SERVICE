@@ -1,13 +1,16 @@
 import express from "express" ;
 import { serverConfig } from "./config/index.js";
-import { pingHandler } from "./controllers/ping.controller.js";
-import pingRouter from "./Routers/ping.router.js";
+import pingRouter from "./Routers/v1/ping.router.js";
+import { v1Router } from "./Routers/v1/index.router.js";
 
 const app = express() ; 
+app.use(express.json() ) ; 
+app.use(express.text() ) ; 
+app.use( express.urlencoded() ); 
 
 const PORT = serverConfig.PORT ;
 
-app.use( pingRouter ) ; 
+app.use( '/api/v1' ,  v1Router ) ; // applicable to every coming request to the server
 
 app.listen(PORT , ()=>{
     console.log("Server is listening on port:- " , PORT ) ; 
