@@ -1,8 +1,15 @@
 import { Request , Response } from "express"
+import { AppError, InternalServerError } from "../utils/errors/app.error.js"
+import fs from "fs/promises"
 
-export const pingHandler = ( req:Request , res:Response ) =>{
-    console.log( req.body ) ; 
-    console.log( req.query ) ; 
-    console.log( req.params ) ; 
-    res.send("pong-gitcodespace") ; 
+export const pingHandler = async ( req:Request , res:Response ) =>{
+
+   try{
+        await fs.readFile("sample")
+        res.status( 200 ).json({message:"Pong"}) ; 
+    }catch( error ){
+       throw new InternalServerError("kriti's error") ; 
+    } 
+
+
 }
