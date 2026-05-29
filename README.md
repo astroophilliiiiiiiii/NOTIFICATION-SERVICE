@@ -3,13 +3,17 @@
 1. Clone the project 
 
 ```
-git clone https://github.com/astroophilliiiiiiiii/Typescript-Template.git <Project Name>
+git clone https://github.com/astroophilliiiiiiiii/Typescript-Template.git temp
+rm -rf temp/.git
+cp -a temp/. .
+rm -rf temp
 ```
 
-2. Move into the folder structure 
+2. Remove the TS-TEMPLATE --MOVING IN BASE FOLDER
 
 ```
-cd <Project Name>
+cp -a TS-TEMPLATE/. .
+rm -rf TS-TEMPLATE
 ```
 3. Install the npm dependencies 
 
@@ -26,5 +30,5 @@ echo -e "PORT=8085\nMONGO_URI=your_mongodb_connection_string_here" >> .env
 5. Start the express Server 
 
 ```
-npm run start
+npm run dev
 ```
