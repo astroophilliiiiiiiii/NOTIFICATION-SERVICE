@@ -8,6 +8,7 @@ import { attachcorrelationIdMiddleware } from "./middlewares/correlation.middlew
 import { setupMailerWorker } from "./processors/email.processor.js";
 import { NotificationDto } from "./dto/notification.dto.js";
 import { addEmailToQueue } from "./producers/email.producer.js";
+import { renderMailTemplate } from "./templates/templates.handler.js";
 
 const app = express() ;  
 app.use(express.json() ) ; 
@@ -21,7 +22,7 @@ app.use( '/api/v1' ,  v1Router ) ; // applicable to every coming request to the 
 
 app.use( genericErrorHandler ) ;   
  
-app.listen(PORT , ()=>{
+app.listen(PORT , async ()=>{
     console.log("Server is listening on port:- " , PORT ) ; 
     logger.info("press Ctrl+C to stop the server " , {"kriti":"bansal"})
 
@@ -35,17 +36,15 @@ app.listen(PORT , ()=>{
     setupMailerWorker() ; 
     console.log("Mailer worker setup completed !! ")
 
-    // const SampleNotification : NotificationDto = {
-    //     to : "sample", 
-    //     subject : "Sample Email", 
-    //     templateId : "Sample-template",
-    //     params : {
-    //         name : "kriti bansal",
-    //         orderId : "12345"
-    //     }
-    // }
-
-    // addEmailToQueue(SampleNotification)
+        addEmailToQueue({
+        to: "kritibansal7777@gmail.com",
+        subject: "Test Email",
+        templateId: "welcome",
+        params: {
+            name: "Kriti Bansal",
+            appName: "Booking App"
+        }
+    })
 }) 
 
  

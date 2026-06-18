@@ -2,7 +2,7 @@
 import Redis  from "ioredis" ;
 import { serverConfig } from "./index.js" ; // connection details 
 
-// singleton pattern to connect to redis 
+// singleton pattern to connect to redis   
 function connectToRedis(){
 
     try{
@@ -11,13 +11,13 @@ function connectToRedis(){
         const redisConfig = {
             port :  serverConfig.REDIS_PORT , 
             host :  serverConfig.REDIS_HOST,
-            maxRetriesPerRequest:null, 
+            maxRetriesPerRequest:null, // no retries to do !! 
         }
         
         // checking the availability 
         return ()=>{
             if( !connection ){
-                connection = new Redis(redisConfig); 
+                connection = new Redis(redisConfig); // redis object ko details dedii 
                 return connection ; 
             }
             return connection ; // returning already existing connection object !!! 

@@ -3,6 +3,8 @@ import { MAILER_QUEUE, mailerQueue } from "../queues/mailer.queue.js" ;
 import { getRedisConnObject } from "../config/config.redis.js" ;
 import { NotificationDto } from "../dto/notification.dto.js";
 import { MAILER_PAYLOAD } from "../producers/email.producer.js";
+import { renderMailTemplate } from "../templates/templates.handler.js";
+import { sendEmail } from "../service/mailer.service.js";
 
 export const setupMailerWorker = ()=>{
     
@@ -21,18 +23,25 @@ const emailProcessor = new Worker<NotificationDto>(
         const payload = job.data 
         console.log("Processing email for:- " , JSON.stringify(payload))
 
+        // gives us the whole email -- substituting the params
+        // welcome + data ( jo populate krna h )
+        const emailContent = await renderMailTemplate( payload.templateId , payload.params )
+
+        // sending the email -- server file logic 
+        await sendEmail( payload.to , payload.subject , emailContent )
     },
 
     // 3.) Connection with the redis 
     { connection : getRedisConnObject() }
 )
 
-    emailProcessor.on("failed" , ()=>{
-        console.error("Email Processing failed! ")
-    })
-
     emailProcessor.on("completed" , ()=>{
-        console.error("Email Processing completed successfullyy ! ")
+        console.log("Email Processing completed successfullyy ! ")
     })
 
+    emailProcessor.on("failed" , (job , err)=>{
+         console.error("Email processing failed ! ");
+    })
 }
+
+

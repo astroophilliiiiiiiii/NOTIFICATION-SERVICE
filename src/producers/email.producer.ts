@@ -9,6 +9,6 @@ export const MAILER_PAYLOAD = "payload:mail" ; // name of the payload for the qu
 export const addEmailToQueue = async ( payload : NotificationDto  ) => {
         // payload ke name se queue mein data jayega !!! 
         await mailerQueue.add( MAILER_PAYLOAD , payload ) ; // payload name : payload 
-        console.error("Email added to the queue successfully ", JSON.stringify(payload) ) ; 
+        console.log("Email added to the queue successfully ", JSON.stringify(payload) ) ; 
 }
 
